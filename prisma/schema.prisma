@@ -12,3 +12,20 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  MODERATOR
+  USER
+}
+
+model User {
+  uuid String @id @default(cuid())
+  username String @unique
+  password String
+  email String @unique
+  name String? //pada edit profil
+  bio String? //pada edit profil
+  avatar  String?
+  dateJoined DateTime @default(now()) //default saat create
+  role  Role @default(USER) //default saat create
+}
