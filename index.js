@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const authRoute = require("./src/routes/routeAuth");
+const topicRoute = require("./src/routes/routeTopic");
 
 const prisma = PrismaClient;
 const app = express();
@@ -23,6 +24,9 @@ app.get("/", (req, res) => {
 
 //auth route
 app.use(authRoute);
+
+//topic route
+app.use(topicRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

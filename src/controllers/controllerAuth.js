@@ -5,7 +5,7 @@ const {
   findUserByUsername,
   findUserByEmail,
   createUser,
-} = require("../services/servicesAuth");
+} = require("../services/serviceAuth");
 
 const handleSignUp = async (req, res) => {
   try {
@@ -40,7 +40,7 @@ const handleSignIn = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw Error("Invalid username or password");
     }
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ userToken: user.uuid }, process.env.JWT_SECRET);
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     res.status(400).send({ error: error.message });
