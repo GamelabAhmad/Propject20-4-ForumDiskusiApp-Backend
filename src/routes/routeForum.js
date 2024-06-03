@@ -10,7 +10,6 @@ const {
     handleDeleteForum,
     createValidationForum
 } = require("../controllers/controllerForums");
-const { route } = require("./routeTopic");
 
 router.post('/forum', auth, validateRequest(createValidationForum), handleCreateForum);
 router.get('/forums', handleGetForums);

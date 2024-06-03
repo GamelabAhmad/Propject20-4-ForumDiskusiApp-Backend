@@ -94,6 +94,7 @@ const handleGetForum = async (req, res) => {
 }
 const createValidationForum = yup.object().shape({
     name: yup.string().required("Name is required"),
+    description: yup.string().required("Description is required"),
 });
 
 module.exports = {

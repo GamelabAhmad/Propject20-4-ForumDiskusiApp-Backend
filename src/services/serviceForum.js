@@ -6,6 +6,7 @@ const createForum = async(userId,  forumData, slugData) => {
         data: {
             name: forumData.name,
             slug : slugData,
+            description: forumData.description,
             createdBy: { connect: { uuid: userId }}
         },
     });
@@ -40,7 +41,8 @@ const editForum = async(forumId, forumData, slugData) => {
         },
         data: {
             name: forumData.name,
-            slug : slugData
+            slug : slugData,
+            description: forumData.description
         }
     })
     return forum;

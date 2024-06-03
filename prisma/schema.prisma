@@ -45,6 +45,7 @@ model Forums {
   uuid      String   @id @default(cuid())
   name      String   @unique
   slug      String
+  description String   @db.Text
   createdAt DateTime @default(now())
   UserId    String
   createdBy User   @relation(fields: [UserId], references: [uuid])
