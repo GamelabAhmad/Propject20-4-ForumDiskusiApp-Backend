@@ -33,20 +33,36 @@ model User {
 }
 
 model Topics {
-  uuid          String   @id @default(cuid())
-  name          String   @unique
+  uuid          String      @id @default(cuid())
+  name          String      @unique
   slug          String
-  createdAt     DateTime @default(now())
-  createdBy     User     @relation(fields: [createdByUser], references: [uuid])
+  createdAt     DateTime    @default(now())
+  createdBy     User        @relation(fields: [createdByUser], references: [uuid])
   createdByUser String
+  Questions     Questions[]
 }
 
 model Forums {
+  uuid        String      @id @default(cuid())
+  name        String      @unique
+  slug        String
+  description String      @db.Text
+  createdAt   DateTime    @default(now())
+  UserId      String
+  createdBy   User        @relation(fields: [UserId], references: [uuid])
+  Questions   Questions[]
+}
+
+model Questions {
   uuid      String   @id @default(cuid())
-  name      String   @unique
+  title     String
+  body      String
   slug      String
-  description String   @db.Text
   createdAt DateTime @default(now())
-  UserId    String
-  createdBy User   @relation(fields: [UserId], references: [uuid])
+  imageUrl  String // Field untuk menyimpan URL gambar dari Cloudinary
+  forumID   String
+  topicsID  String? // Field ini diisi nanti diquestions yang didalam forum
+
+  forum Forums @relation(fields: [forumID], references: [uuid])
+  topic Topics? @relation(fields: [topicsID], references: [uuid])
 }
