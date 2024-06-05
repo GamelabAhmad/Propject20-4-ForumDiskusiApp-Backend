@@ -9,6 +9,8 @@ const authRoute = require("./src/routes/routeAuth");
 const topicRoute = require("./src/routes/routeTopic");
 const forumRoute = require("./src/routes/routeForum");
 // const cloudRoute = require("./src/routes/routeCloud");
+const userRoute = require("./src/routes/routeUser");
+
 const prisma = PrismaClient;
 const app = express();
 dotenv.config();
@@ -35,6 +37,9 @@ app.use(topicRoute);
 app.use(forumRoute);
 
 // app.use(cloudRoute);
+
+// user route
+app.use(userRoute);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
