@@ -53,15 +53,19 @@ const signUpSchema = yup.object().shape({
     .string()
     .required("Username is required")
     .min(3, "Username must be at least 3 characters long")
-    .max(30, "Username must be at most 30 characters long"),
+    .max(30, "Username must be at most 30 characters long")
+    .matches(/^[^\s]*$/, "Username must not contain spaces"),
   email: yup
     .string()
     .required("Email is required")
-    .email("Email must be a valid email address"),
+    .email("Email must be a valid email address")
+    .matches(/^[^\s]*$/, "Email must not contain spaces"),
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters long"),
+    .min(8, "Password must be at least 8 characters long")
+    .matches(/^[^\s]*$/, "Password must not contain spaces"),
+
   name: yup.string().max(50, "Name must be at most 50 characters long"),
   bio: yup.string().max(200, "Bio must be at most 200 characters long"),
 });
