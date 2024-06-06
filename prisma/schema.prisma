@@ -30,7 +30,6 @@ model User {
   role       Role        @default(USER) //default saat create
   topic      Topics[]
   Forums     Forums[]
-  Questions  Questions[]
 }
 
 model Topics {
@@ -63,9 +62,7 @@ model Questions {
   imageUrl  String // Field untuk menyimpan URL gambar dari Cloudinary
   forumID   String
   topicsID  String? // Field ini diisi nanti diquestions yang didalam forum
-  UserId    String
-  createdBy User     @relation(fields: [UserId], references: [uuid])
-
+  
   forum Forums  @relation(fields: [forumID], references: [uuid])
   topic Topics? @relation(fields: [topicsID], references: [uuid])
 }

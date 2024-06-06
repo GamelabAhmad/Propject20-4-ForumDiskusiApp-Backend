@@ -8,13 +8,9 @@ CREATE TABLE `Questions` (
     `imageUrl` VARCHAR(191) NOT NULL,
     `forumID` VARCHAR(191) NOT NULL,
     `topicsID` VARCHAR(191) NULL,
-    `UserId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`uuid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `Questions` ADD CONSTRAINT `Questions_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`uuid`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Questions` ADD CONSTRAINT `Questions_forumID_fkey` FOREIGN KEY (`forumID`) REFERENCES `Forums`(`uuid`) ON DELETE RESTRICT ON UPDATE CASCADE;
