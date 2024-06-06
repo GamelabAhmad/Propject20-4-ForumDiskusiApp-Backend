@@ -3,10 +3,13 @@ const dotenv = require("dotenv");
 const { PrismaClient } = require("@prisma/client");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 const authRoute = require("./src/routes/routeAuth");
 const topicRoute = require("./src/routes/routeTopic");
-const forumRoute = require("./src/routes/routeForum"); 
+const forumRoute = require("./src/routes/routeForum");
+// const cloudRoute = require("./src/routes/routeCloud");
+const userRoute = require("./src/routes/routeUser");
 
 const prisma = PrismaClient;
 const app = express();
@@ -16,6 +19,7 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser());
 app.use(cors());
 
@@ -32,6 +36,10 @@ app.use(topicRoute);
 // Forum Routes
 app.use(forumRoute);
 
+// app.use(cloudRoute);
+
+// user route
+app.use(userRoute);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
