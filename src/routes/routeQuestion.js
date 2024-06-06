@@ -5,16 +5,22 @@ const {
     handleEditQuestion,
     handleDeleteQuestion,
     handleSearchQuestions,
-    handleGetQuestions
+    handleGetQuestions,
+    createValidationQuestion
   } = require("../controllers/controllerQuestion");
-const { route } = require("./routeAuth");
 const router = express.Router();
+const { auth, moderator } = require("../middlewares/auth");
+const validateRequest = require("../middlewares/validation");
 
-router.post("/questions", createQuestionController);
+router.post("/questions", 
+    auth,
+    validateRequest(createValidationQuestion),
+    createQuestionController
+);
 router.get("/questions/:id", handleGetQuestion);
 router.put("/questions/:id", handleEditQuestion);
 router.delete("/questions/:id", handleDeleteQuestion);
-router.get("/questions", handleSearchQuestions);
+router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions)
 
 module.exports = router;

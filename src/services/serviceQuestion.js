@@ -1,7 +1,7 @@
 const cloudinary = require("../config/cloudinaryConfig");
 const prisma = require("../db");
 
-const createQuestion = async (data, file, slugData) => {
+const createQuestion = async (userId, data, file, slugData) => {
   try {
     let imageUrl = null;
 
@@ -21,8 +21,9 @@ const createQuestion = async (data, file, slugData) => {
         body: data.body,
         slug: slugData,
         imageUrl: imageUrl,
-        forumID: data.forumID || null,
-        topicsID: data.topicsID || null,
+        forum: data.forumID ? { connect: { uuid: data.forumID } } : undefined,
+        topic: data.topicsID ? { connect: { uuid: data.topicsID } } : undefined,
+        createdBy: { connect: { uuid: userId }}
       },
     });
 

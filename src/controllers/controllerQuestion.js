@@ -8,6 +8,7 @@ const {
   searchQuestionsByTitle,
 } = require("../services/serviceQuestion");
 const slug = require("slug");
+const yup = require("yup");
 
 const createQuestionController = async (req, res) => {
   try {
@@ -15,11 +16,12 @@ const createQuestionController = async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
+    const userId = req.user.userToken;
     const file = req.files.image;
     const data = req.body;
 
     const slugData = slug(data.title);
-    const question = await createQuestion(data, file, slugData);
+    const question = await createQuestion(userId, data, file, slugData);
 
     res.status(200).json(question);
   } catch (error) {
@@ -85,11 +87,16 @@ const handleSearchQuestions = async (req, res) => {
   }
 };
 
+const createValidationQuestion = yup.object().shape({
+  title: yup.string().required(),
+  body: yup.string().required()
+})
 module.exports = {
   createQuestionController,
   handleGetQuestion,
   handleEditQuestion,
   handleDeleteQuestion,
   handleSearchQuestions,
-  handleGetQuestions
+  handleGetQuestions,
+  createValidationQuestion
 };

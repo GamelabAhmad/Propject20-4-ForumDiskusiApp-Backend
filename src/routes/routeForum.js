@@ -14,7 +14,6 @@ const {
 router.post(
   "/forum",
   auth,
-  moderator,
   validateRequest(createValidationForum),
   handleCreateForum
 );
