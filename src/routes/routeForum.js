@@ -19,7 +19,7 @@ router.post(
 );
 router.get("/forums", handleGetForums);
 router.get("/forum/:id", handleGetForum);
-router.put("/forum/:id", auth, moderator, handleEditForum);
+router.put("/forum/:id", auth, handleEditForum);
 router.delete("/forum/:id", auth, moderator, handleDeleteForum);
 
 module.exports = router;

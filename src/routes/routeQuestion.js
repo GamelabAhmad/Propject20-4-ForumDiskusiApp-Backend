@@ -17,9 +17,9 @@ router.post("/questions",
     validateRequest(createValidationQuestion),
     createQuestionController
 );
-router.get("/questions/:id", handleGetQuestion);
-router.put("/questions/:id", handleEditQuestion);
-router.delete("/questions/:id", handleDeleteQuestion);
+router.get("/question/:id", handleGetQuestion);
+router.put("/question/:id", auth, handleEditQuestion);
+router.delete("/question/:id", auth, handleDeleteQuestion);
 router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions)
 
