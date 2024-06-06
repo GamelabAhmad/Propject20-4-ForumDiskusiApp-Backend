@@ -8,8 +8,10 @@ const fileUpload = require("express-fileupload");
 const authRoute = require("./src/routes/routeAuth");
 const topicRoute = require("./src/routes/routeTopic");
 const forumRoute = require("./src/routes/routeForum");
-// const cloudRoute = require("./src/routes/routeCloud");
+const cloudRoute = require("./src/routes/routeCloud");
 const userRoute = require("./src/routes/routeUser");
+const questionRoute = require("./src/routes/routeQuestion");
+
 
 const prisma = PrismaClient;
 const app = express();
@@ -36,7 +38,10 @@ app.use(topicRoute);
 // Forum Routes
 app.use(forumRoute);
 
-// app.use(cloudRoute);
+app.use(cloudRoute);
+
+// Question Route
+app.use(questionRoute);
 
 // user route
 app.use(userRoute);
