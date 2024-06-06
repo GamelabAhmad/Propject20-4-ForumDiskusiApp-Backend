@@ -9,7 +9,7 @@ const {
     createValidationQuestion
   } = require("../controllers/controllerQuestion");
 const router = express.Router();
-const { auth, moderator } = require("../middlewares/auth");
+const { auth } = require("../middlewares/auth");
 const validateRequest = require("../middlewares/validation");
 
 router.post("/questions", 
