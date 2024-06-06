@@ -60,9 +60,9 @@ model Questions {
   slug      String
   createdAt DateTime @default(now())
   imageUrl  String // Field untuk menyimpan URL gambar dari Cloudinary
-  forumID   String
+  forumID   String?
   topicsID  String? // Field ini diisi nanti diquestions yang didalam forum
   
-  forum Forums  @relation(fields: [forumID], references: [uuid])
+  forum Forums?  @relation(fields: [forumID], references: [uuid])
   topic Topics? @relation(fields: [topicsID], references: [uuid])
 }

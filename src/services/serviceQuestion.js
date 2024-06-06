@@ -1,15 +1,18 @@
-// services/questionService.js
-
 const cloudinary = require("../config/cloudinaryConfig");
-const prisma = require("../db")
+const prisma = require("../db");
 
 const createQuestion = async (data, file, slugData) => {
   try {
-    // Upload image to Cloudinary
-    const response = await cloudinary.uploader.upload(file.tempFilePath, {
-      folder: "questions",
-      allowed_formats: ["jpg", "jpeg", "png"],
-    });
+    let imageUrl = null;
+
+    // Upload image to Cloudinary if file exists
+    if (file) {
+      const response = await cloudinary.uploader.upload(file.tempFilePath, {
+        folder: "questions",
+        allowed_formats: ["jpg", "jpeg", "png"],
+      });
+      imageUrl = response.secure_url;
+    }
 
     // Create question record in the database
     const question = await prisma.questions.create({
@@ -17,40 +20,110 @@ const createQuestion = async (data, file, slugData) => {
         title: data.title,
         body: data.body,
         slug: slugData,
-        imageUrl: response.secure_url,
-        forumID: data.forumID,
-        topicsID: data.topicsID,
+        imageUrl: imageUrl,
+        forumID: data.forumID || null,
+        topicsID: data.topicsID || null,
       },
     });
 
     return question;
   } catch (error) {
-    throw new Error("Failed to create question");
+    throw new Error("Failed to create question: " + error.message);
   }
 };
 
 // Find Questions berdasarkan title
 const findQuestionByTitle = async (title) => {
-    const question = await prisma.questions.findUnique({
-        where: {
-            title: title,
-        }
-    })
-    return question;
-}
+  const question = await prisma.questions.findUnique({
+    where: {
+      title: title,
+    },
+  });
+  return question;
+};
 
-// Find question id
+// Find question by id
 const findQuestionById = async (questionId) => {
-    const question = await prisma.questions.findUnique({
-        where: {
-            uuid: questionId
-        }
-    })
-    return question;
-}
+  const question = await prisma.questions.findUnique({
+    where: {
+      uuid: questionId,
+    },
+  });
+  return question;
+};
 
-module.exports = { 
-    createQuestion,
-    findQuestionByTitle,
-    findQuestionById
- };
+// All Question
+const getQuestion = async() => {
+  const question = await prisma.questions.findMany({});
+  return question;
+}
+// Edit question
+const editQuestion = async (questionId, data, file) => {
+  try {
+    let imageUrl = null;
+
+    // Upload image to Cloudinary if file exists
+    if (file) {
+      const response = await cloudinary.uploader.upload(file.tempFilePath, {
+        folder: "questions",
+        allowed_formats: ["jpg", "jpeg", "png"],
+      });
+      imageUrl = response.secure_url;
+    }
+
+    const question = await prisma.questions.update({
+      where: {
+        uuid: questionId,
+      },
+      data: {
+        title: data.title,
+        body: data.body,
+        slug: data.slug,
+        imageUrl: imageUrl || undefined,
+        forumID: data.forumID || null,
+        topicsID: data.topicsID || null,
+      },
+    });
+
+    return question;
+  } catch (error) {
+    throw new Error("Failed to edit question: " + error.message);
+  }
+};
+
+// Delete question
+const deleteQuestion = async (questionId) => {
+  try {
+    await prisma.questions.delete({
+      where: {
+        uuid: questionId,
+      },
+    });
+    return { message: "Question deleted successfully" };
+  } catch (error) {
+    throw new Error("Failed to delete question: " + error.message);
+  }
+};
+
+// Search questions by title
+const searchQuestionsByTitle = async (title) => {
+  const lowerCaseTitle = title.toLowerCase();
+  const questions = await prisma.questions.findMany({
+    where: {
+      title: {
+        contains: lowerCaseTitle,
+      },
+    },
+  });
+  return questions;
+};
+
+module.exports = {
+  createQuestion,
+  findQuestionByTitle,
+  getQuestion,
+  findQuestionById,
+  editQuestion,
+  deleteQuestion,
+  searchQuestionsByTitle,
+};
