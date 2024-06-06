@@ -12,7 +12,7 @@ const router = express.Router();
 const { auth } = require("../middlewares/auth");
 const validateRequest = require("../middlewares/validation");
 
-router.post("/questions", 
+router.post("/question", 
     auth,
     validateRequest(createValidationQuestion),
     createQuestionController
