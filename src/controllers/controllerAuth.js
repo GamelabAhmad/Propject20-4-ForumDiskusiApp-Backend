@@ -65,7 +65,6 @@ const signUpSchema = yup.object().shape({
     .required("Password is required")
     .min(8, "Password must be at least 8 characters long")
     .matches(/^[^\s]*$/, "Password must not contain spaces"),
-
   name: yup.string().max(50, "Name must be at most 50 characters long"),
   bio: yup.string().max(200, "Bio must be at most 200 characters long"),
 });

@@ -10,7 +10,8 @@ const createUser = async (userData) => {
       email: userData.email,
       name: null,
       bio: null,
-      avatar: null,
+      avatar:
+        "https://res.cloudinary.com/dhvh8htdc/image/upload/v1717667656/ak5lhsep5vrwikyyklo9.png",
     },
   });
 
