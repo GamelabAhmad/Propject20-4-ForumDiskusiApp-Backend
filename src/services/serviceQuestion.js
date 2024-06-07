@@ -60,7 +60,8 @@ const findQuestionById = async (questionId) => {
 const getQuestion = async() => {
   const question = await prisma.questions.findMany({
     include: {
-      createdBy: true
+      createdBy: true,
+      QuestionLikes: true
     }
   });
   return question;
