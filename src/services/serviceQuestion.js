@@ -49,13 +49,20 @@ const findQuestionById = async (questionId) => {
     where: {
       uuid: questionId,
     },
+    include: {
+      createdBy: true
+    }
   });
   return question;
 };
 
 // All Question
 const getQuestion = async() => {
-  const question = await prisma.questions.findMany({});
+  const question = await prisma.questions.findMany({
+    include: {
+      createdBy: true
+    }
+  });
   return question;
 }
 // Edit question

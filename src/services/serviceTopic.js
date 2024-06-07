@@ -25,7 +25,11 @@ const editTopic = async (topicId, topicData, slugData) => {
 };
 
 const getTopics = async () => {
-  const topics = await prisma.topics.findMany({});
+  const topics = await prisma.topics.findMany({
+    include: {
+      createdBy: true
+    }
+  });
   return topics;
 };
 
@@ -34,6 +38,9 @@ const findTopicById = async (topicId) => {
     where: {
       uuid: topicId,
     },
+    include: {
+      createdBy: true
+    }
   });
   return topic;
 };

@@ -28,6 +28,9 @@ const findForumById = async (forumId) => {
     const forum = await prisma.forums.findUnique({
         where: {
             uuid: forumId
+        },
+        include:{
+            createdBy: true
         }
     })
     return forum;
@@ -50,7 +53,11 @@ const editForum = async(forumId, forumData, slugData) => {
 
 // Get All Forum
 const getForums = async() => {
-    const forum = await prisma.forums.findMany({});
+    const forum = await prisma.forums.findMany({
+        include:{
+            createdBy: true
+        }
+    });
     return forum;
 }
 
