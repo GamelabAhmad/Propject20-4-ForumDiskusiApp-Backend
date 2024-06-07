@@ -42,15 +42,15 @@ const handleGetQuestion = async (req, res) => {
   }
 };
 
-const handleGetQuestions = async(req, res) => {
+const handleGetQuestions = async (req, res) => {
   try {
     const questions = await getQuestion();
     res.status(200).json(questions);
   } catch (error) {
-    res.status(400).send({ error: error.message})
+    res.status(400).send({ error: error.message });
   }
   return;
-}
+};
 
 const handleEditQuestion = async (req, res) => {
   try {
@@ -59,7 +59,11 @@ const handleEditQuestion = async (req, res) => {
     const data = req.body;
     const slugData = slug(data.title);
 
-    const question = await editQuestion(questionId, { ...data, slug: slugData }, file);
+    const question = await editQuestion(
+      questionId,
+      { ...data, slug: slugData },
+      file
+    );
 
     res.status(200).json(question);
   } catch (error) {
@@ -89,8 +93,8 @@ const handleSearchQuestions = async (req, res) => {
 
 const createValidationQuestion = yup.object().shape({
   title: yup.string().required(),
-  body: yup.string().required()
-})
+  body: yup.string().required(),
+});
 module.exports = {
   createQuestionController,
   handleGetQuestion,
@@ -98,5 +102,5 @@ module.exports = {
   handleDeleteQuestion,
   handleSearchQuestions,
   handleGetQuestions,
-  createValidationQuestion
+  createValidationQuestion,
 };
