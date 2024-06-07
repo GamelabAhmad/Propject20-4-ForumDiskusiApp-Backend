@@ -11,10 +11,10 @@ const handleLikeQuestion = async(req, res) => {
         const data = req.body;
         const userId = req.user.userToken;
 
-        const like = await addLikeToQuestion(data, userId);
-        res.status(200).json(like);
+        const result = await addLikeToQuestion(data, userId);
+        res.status(200).json(result);
     } catch (error) {
-       res.status(404).send({ error: error.message }) 
+       res.status(404).send({ error: error.message });
     }
 }
 

@@ -32,6 +32,7 @@ model User {
   Forums        Forums[]
   Questions     Questions[]
   QuestionLikes QuestionLikes[]
+  Comments Comments[]
 }
 
 model Topics {
@@ -70,6 +71,7 @@ model Questions {
   forum         Forums?         @relation(fields: [forumID], references: [uuid])
   topic         Topics?         @relation(fields: [topicsID], references: [uuid])
   QuestionLikes QuestionLikes[]
+  Comments Comments[]
 }
 
 model QuestionLikes {
@@ -80,4 +82,14 @@ model QuestionLikes {
 
   question Questions @relation(fields: [questionId], references: [uuid])
   user     User      @relation(fields: [userId], references: [uuid])
+}
+
+model Comments {
+  uuid        String   @id @default(cuid())
+  body        String
+  commentedAt DateTime @default(now())
+  userId      String
+  questionId  String
+  commentedBy User     @relation(fields: [userId], references: [uuid])
+  question    Questions @relation(fields: [questionId], references: [uuid])
 }
