@@ -19,18 +19,19 @@ enum Role {
 }
 
 model User {
-  uuid       String      @id @default(cuid())
-  username   String      @unique
-  password   String
-  email      String      @unique
-  name       String? //pada edit profil
-  bio        String? //pada edit profil
-  avatar     String?
-  dateJoined DateTime    @default(now()) //default saat create
-  role       Role        @default(USER) //default saat create
-  topic      Topics[]
-  Forums     Forums[]
-  Questions  Questions[]
+  uuid          String          @id @default(cuid())
+  username      String          @unique
+  password      String
+  email         String          @unique
+  name          String? //pada edit profil
+  bio           String? //pada edit profil
+  avatar        String?
+  dateJoined    DateTime        @default(now()) //default saat create
+  role          Role            @default(USER) //default saat create
+  topic         Topics[]
+  Forums        Forums[]
+  Questions     Questions[]
+  QuestionLikes QuestionLikes[]
 }
 
 model Topics {
@@ -66,6 +67,17 @@ model Questions {
   UserId    String
   createdBy User     @relation(fields: [UserId], references: [uuid])
 
-  forum Forums? @relation(fields: [forumID], references: [uuid])
-  topic Topics? @relation(fields: [topicsID], references: [uuid])
+  forum         Forums?         @relation(fields: [forumID], references: [uuid])
+  topic         Topics?         @relation(fields: [topicsID], references: [uuid])
+  QuestionLikes QuestionLikes[]
+}
+
+model QuestionLikes {
+  uuid       String   @id @default(cuid())
+  questionId String
+  userId     String
+  createdAt  DateTime @default(now())
+
+  question Questions @relation(fields: [questionId], references: [uuid])
+  user     User      @relation(fields: [userId], references: [uuid])
 }
