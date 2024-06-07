@@ -11,6 +11,7 @@ const forumRoute = require("./src/routes/routeForum");
 const cloudRoute = require("./src/routes/routeCloud");
 const userRoute = require("./src/routes/routeUser");
 const questionRoute = require("./src/routes/routeQuestion");
+const questionLikeRoute = require("./src/routes/routeQuestionLike");
 
 
 const prisma = PrismaClient;
@@ -45,6 +46,11 @@ app.use(questionRoute);
 
 // user route
 app.use(userRoute);
+
+// Question Like Route
+app.use(questionLikeRoute);
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
