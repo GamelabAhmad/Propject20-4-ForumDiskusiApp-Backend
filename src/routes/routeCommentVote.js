@@ -8,8 +8,8 @@ const {
 const router = express.Router();
 const { auth } = require("../middlewares/auth");
 
-router.post("/like", auth, handleVoteComment);
-router.post("/unlike", auth, handleDownvoteComment);
+router.post("/like/:commentId", auth, handleVoteComment);
+router.post("/unlike/:commentId", auth, handleDownvoteComment);
 router.get("/likes/:commentId", handleGetCommentVotes);
 
 module.exports = router;
