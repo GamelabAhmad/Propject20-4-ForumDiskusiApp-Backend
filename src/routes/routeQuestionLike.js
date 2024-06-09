@@ -1,15 +1,15 @@
 const express = require("express");
 const {
-    handleLikeQuestion,
-    handleUnlikeQuestion,
-    handleGetLikes
+    handleVoteQuestion,
+    handleDownvoteQuestion,
+    handleGetVotes
 } = require("../controllers/controllerQuestionLike");
 
 const router = express.Router();
 const { auth } = require("../middlewares/auth");
 
-router.post("/like", auth, handleLikeQuestion);
-router.post("/unlike", auth, handleUnlikeQuestion);
-router.get("/likes/:questionId", handleGetLikes);
+router.post("/vote", auth, handleVoteQuestion);
+router.post("/downvote", auth, handleDownvoteQuestion);
+router.get("/votes/:questionId", handleGetVotes);
 
 module.exports = router;

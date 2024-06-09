@@ -1,52 +1,49 @@
-const { user } = require("../db");
 const {
-    addLikeToQuestion,
-    removeLikeFromQuestion,
-    getLikesForQuestion,
+    toggleVote,
+    getVotesForQuestion,
 } = require("../services/serviceQuestionLike");
 
-
-const handleLikeQuestion = async(req, res) => {
+const handleVoteQuestion = async (req, res) => {
     try {
         const data = req.body;
         const userId = req.user.userToken;
 
-        const result = await addLikeToQuestion(data, userId);
+        const result = await toggleVote(data, userId, 'VOTE');
         res.status(200).json(result);
     } catch (error) {
-       res.status(404).send({ error: error.message });
+        res.status(404).send({ error: error.message });
     }
 }
 
-const handleUnlikeQuestion = async(req, res) => {
+const handleDownvoteQuestion = async (req, res) => {
     try {
         const data = req.body;
         const userId = req.user.userToken;
 
-        await removeLikeFromQuestion(data, userId);
-        res.status(200).json({ message: "Unlike the question" });
+        const result = await toggleVote(data, userId, 'DOWNVOTE');
+        res.status(200).json(result);
     } catch (error) {
-        res.status(404).send({ error: error.message })
+        res.status(404).send({ error: error.message });
     }
 }
 
-const handleGetLikes = async(req, res) => {
+const handleGetVotes = async (req, res) => {
     try {
-        const { questionId } =req.params;
+        const { questionId } = req.params;
 
-        if(!questionId) {
+        if (!questionId) {
             res.status(400).send({ error: "Question ID is required" });
         }
 
-        const likes = await getLikesForQuestion(questionId);
-        res.status(200).json(likes);
+        const votes = await getVotesForQuestion(questionId);
+        res.status(200).json(votes);
     } catch (error) {
-        res.status(404).send({ error: error.message })
+        res.status(404).send({ error: error.message });
     }
 }
 
 module.exports = {
-    handleLikeQuestion,
-    handleUnlikeQuestion,
-    handleGetLikes
+    handleVoteQuestion,
+    handleDownvoteQuestion,
+    handleGetVotes
 }

@@ -31,8 +31,8 @@ model User {
   topic         Topics[]
   Forums        Forums[]
   Questions     Questions[]
-  QuestionLikes QuestionLikes[]
-  Comments Comments[]
+  Comments      Comments[]
+  QuestionVotes QuestionVotes[]
 }
 
 model Topics {
@@ -70,26 +70,32 @@ model Questions {
 
   forum         Forums?         @relation(fields: [forumID], references: [uuid])
   topic         Topics?         @relation(fields: [topicsID], references: [uuid])
-  QuestionLikes QuestionLikes[]
-  Comments Comments[]
+  Comments      Comments[]
+  QuestionVotes QuestionVotes[]
 }
 
-model QuestionLikes {
+model QuestionVotes {
   uuid       String   @id @default(cuid())
   questionId String
   userId     String
+  role       VoteRole
   createdAt  DateTime @default(now())
 
   question Questions @relation(fields: [questionId], references: [uuid])
   user     User      @relation(fields: [userId], references: [uuid])
 }
 
+enum VoteRole {
+  VOTE
+  DOWNVOTE
+}
+
 model Comments {
-  uuid        String   @id @default(cuid())
+  uuid        String    @id @default(cuid())
   body        String
-  commentedAt DateTime @default(now())
+  commentedAt DateTime  @default(now())
   userId      String
   questionId  String
-  commentedBy User     @relation(fields: [userId], references: [uuid])
+  commentedBy User      @relation(fields: [userId], references: [uuid])
   question    Questions @relation(fields: [questionId], references: [uuid])
 }
