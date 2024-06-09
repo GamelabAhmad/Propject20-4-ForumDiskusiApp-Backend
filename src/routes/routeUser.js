@@ -6,7 +6,7 @@ const {
   handleEditUser,
 } = require("../controllers/controllerUser");
 
-router.get("/:id", handleGetUser);
+router.get("/profile/:id", handleGetUser);
 
 router.put("/setting/:id", auth, handleEditUser);
 
