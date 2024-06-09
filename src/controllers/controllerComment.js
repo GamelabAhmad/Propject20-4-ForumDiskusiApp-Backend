@@ -1,4 +1,4 @@
-const slug = require("slug");
+const yup = require("yup");
 const {
   createComent,
   getComments,
@@ -88,6 +88,10 @@ const handleGetCommentEachQuestion = async (req, res) => {
   }
 };
 
+const commentSchema = yup.object().shape({
+  body: yup.string().required("Comment is required"),
+});
+
 module.exports = {
   handleCreateComment,
   handleGetComments,
@@ -95,4 +99,5 @@ module.exports = {
   handleDeleteComment,
   handleEditComment,
   handleGetCommentEachQuestion,
+  commentSchema,
 };
