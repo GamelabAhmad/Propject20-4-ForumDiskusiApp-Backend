@@ -2,7 +2,6 @@ const prisma = require("../db");
 
 const toggleVote = async (data, userId, role) => {
     try {
-        // Cek apakah sudah ada vote atau downvote dari user ini
         const existingVote = await prisma.questionVotes.findFirst({
             where: {
                 questionId: data.questionId,
@@ -12,7 +11,6 @@ const toggleVote = async (data, userId, role) => {
 
         if (existingVote) {
             if (existingVote.role === role) {
-                // Jika vote/downvote sudah ada, hapus
                 await prisma.questionVotes.deleteMany({
                     where: {
                         questionId: data.questionId,
@@ -21,7 +19,6 @@ const toggleVote = async (data, userId, role) => {
                 });
                 return { message: `${role} removed` };
             } else {
-                // Jika role berbeda, update role
                 const updatedVote = await prisma.questionVotes.updateMany({
                     where: {
                         questionId: data.questionId,
@@ -34,7 +31,6 @@ const toggleVote = async (data, userId, role) => {
                 return updatedVote;
             }
         } else {
-            // Jika belum ada vote/downvote, tambahkan
             const vote = await prisma.questionVotes.create({
                 data: {
                     question: { connect: { uuid: data.questionId }},
@@ -63,7 +59,7 @@ const getVotesForQuestion = async (questionId) => {
     } catch (error) {
       throw new Error(`Failed to get votes: ${error.message}`);
     }
-  };
+};
 
 module.exports = {
     toggleVote,
