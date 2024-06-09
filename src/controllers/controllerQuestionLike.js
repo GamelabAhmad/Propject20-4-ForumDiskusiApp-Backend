@@ -5,7 +5,7 @@ const {
 
 const handleVoteQuestion = async (req, res) => {
     try {
-        const data = req.body;
+        const data = { questionId: req.params.questionId }; // Extract questionId from params
         const userId = req.user.userToken;
 
         const result = await toggleVote(data, userId, 'VOTE');
@@ -17,7 +17,7 @@ const handleVoteQuestion = async (req, res) => {
 
 const handleDownvoteQuestion = async (req, res) => {
     try {
-        const data = req.body;
+        const data = { questionId: req.params.questionId }; // Extract questionId from params
         const userId = req.user.userToken;
 
         const result = await toggleVote(data, userId, 'DOWNVOTE');
