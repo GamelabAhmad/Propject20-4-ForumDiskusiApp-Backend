@@ -40,8 +40,15 @@ const handleSignIn = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw Error("Invalid username or password");
     }
-    const token = jwt.sign({ userToken: user.uuid }, process.env.JWT_SECRET);
-    res.status(200).json({ message: "Login successful", token });
+    const token = jwt.sign(
+      {
+        userToken: user.uuid,
+        exp: parseInt(new Date().getTime() / 1000 + 6 * 60 * 60),
+      },
+      process.env.JWT_SECRET
+    );
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 6 * 60 * 60 * 1000 });
+    res.status(200).json({ message: "Login successful", user: user, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
