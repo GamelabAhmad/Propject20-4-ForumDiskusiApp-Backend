@@ -34,6 +34,8 @@ model User {
   Comments      Comments[]
   QuestionVotes QuestionVotes[]
   CommentVotes  CommentVotes[]
+  user  Follows[]  @relation("User")
+  following  Follows[]  @relation("Following")
 }
 
 model Topics {
@@ -111,4 +113,13 @@ model CommentVotes {
 
   comment   Comments @relation(fields: [commentId], references: [uuid])
   user      User     @relation(fields: [userId], references: [uuid])
+}
+
+model Follows {
+  uuid String @id @default(cuid())
+  userId String
+  followingId String
+
+  user User @relation("User", fields: [userId], references: [uuid])
+  following  User @relation("Following", fields: [followingId], references: [uuid])
 }

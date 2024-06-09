@@ -14,6 +14,7 @@ const questionRoute = require("./src/routes/routeQuestion");
 const questionLikeRoute = require("./src/routes/routeQuestionLike");
 const commentRoute = require("./src/routes/routeComment");
 const commentVoteRoute = require("./src/routes/routeCommentVote");
+const followRoute = require("./src/routes/routeFollow");
 
 const prisma = PrismaClient;
 const app = express();
@@ -27,20 +28,23 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser());
 const allowedOrigins = ["http://localhost:3000", "http://localhost:5173"];
 
-app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin
-    // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-          'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true, // This will allow cookies to be included in the request
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin
+      // (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, // This will allow cookies to be included in the request
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -71,6 +75,9 @@ app.use(commentRoute);
 
 // Comment Vote Route
 app.use(commentVoteRoute);
+
+//follow route
+app.use(followRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
