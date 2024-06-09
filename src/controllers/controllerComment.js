@@ -41,6 +41,9 @@ const handleGetComment = async (req, res) => {
   try {
     const commentId = req.params.id;
     const comment = await getComment(commentId);
+    if (!comments) {
+      return res.status(404).json({ message: "Comments not found" });
+    }
     res.status(200).json(comment);
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -75,6 +78,9 @@ const handleEditComment = async (req, res) => {
 const handleGetCommentEachQuestion = async (req, res) => {
   try {
     const questionId = req.params.id;
+    const question = await findQuestionById(questionId);
+    if (!question)
+      return res.status(404).json({ message: "Question not found" });
     const comment = await getCommentEachQuestion(questionId);
     res.status(200).json(comment);
   } catch (error) {
