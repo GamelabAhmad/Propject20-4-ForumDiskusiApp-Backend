@@ -5,7 +5,7 @@ const {
 
 const handleVoteComment = async (req, res) => {
     try {
-        const data = req.body;
+        const data = { commentId: req.params.commentId }; // Extract questionId from params
         const userId = req.user.userToken;
 
         if (!data.commentId) {
@@ -23,7 +23,7 @@ const handleVoteComment = async (req, res) => {
 
 const handleDownvoteComment = async (req, res) => {
     try {
-        const data = req.body;
+        const data = { commentId: req.params.commentId }; // Extract questionId from params
         const userId = req.user.userToken;
 
         if (!data.commentId) {
@@ -41,7 +41,6 @@ const handleDownvoteComment = async (req, res) => {
 
 const handleGetCommentVotes = async (req, res) => {
     try {
-        console.log("Request params:", req.params); // Tambahkan log ini
         const { commentId } = req.params;
 
         if (!commentId) {
