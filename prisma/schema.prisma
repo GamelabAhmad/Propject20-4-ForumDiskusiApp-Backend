@@ -33,6 +33,7 @@ model User {
   Questions     Questions[]
   Comments      Comments[]
   QuestionVotes QuestionVotes[]
+  CommentVotes  CommentVotes[]
 }
 
 model Topics {
@@ -91,11 +92,23 @@ enum VoteRole {
 }
 
 model Comments {
-  uuid        String    @id @default(cuid())
-  body        String
-  commentedAt DateTime  @default(now())
-  userId      String
-  questionId  String
-  commentedBy User      @relation(fields: [userId], references: [uuid])
-  question    Questions @relation(fields: [questionId], references: [uuid])
+  uuid         String         @id @default(cuid())
+  body         String
+  commentedAt  DateTime       @default(now())
+  userId       String
+  questionId   String
+  commentedBy  User           @relation(fields: [userId], references: [uuid])
+  question     Questions      @relation(fields: [questionId], references: [uuid])
+  CommentVotes CommentVotes[]
+}
+
+model CommentVotes {
+  uuid      String   @id @default(cuid())
+  commentId String
+  userId    String
+  role      VoteRole
+  createdAt DateTime @default(now())
+
+  comment   Comments @relation(fields: [commentId], references: [uuid])
+  user      User     @relation(fields: [userId], references: [uuid])
 }

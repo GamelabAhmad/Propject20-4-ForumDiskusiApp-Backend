@@ -13,6 +13,7 @@ const userRoute = require("./src/routes/routeUser");
 const questionRoute = require("./src/routes/routeQuestion");
 const questionLikeRoute = require("./src/routes/routeQuestionLike");
 const commentRoute = require("./src/routes/routeComment");
+const commentVoteRoute = require("./src/routes/routeCommentVote");
 
 const prisma = PrismaClient;
 const app = express();
@@ -52,6 +53,9 @@ app.use(questionLikeRoute);
 
 // comment route
 app.use(commentRoute);
+
+// Comment Vote Route
+app.use(commentVoteRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
