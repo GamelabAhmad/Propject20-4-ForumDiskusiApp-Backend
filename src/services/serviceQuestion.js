@@ -70,7 +70,7 @@ const getQuestion = async() => {
 // Edit question
 const editQuestion = async (questionId, data, file) => {
   try {
-    let imageUrl = null;
+    let imageUrl = data.imageUrl === null ? null : undefined;
 
     // Upload image to Cloudinary if file exists
     if (file) {
@@ -89,7 +89,7 @@ const editQuestion = async (questionId, data, file) => {
         title: data.title,
         body: data.body,
         slug: data.slug,
-        imageUrl: imageUrl || undefined,
+        imageUrl: imageUrl || null,  // Set imageUrl to null if explicitly specified, else keep unchanged
         forumID: data.forumID || null,
         topicsID: data.topicsID || null,
       },
@@ -100,7 +100,6 @@ const editQuestion = async (questionId, data, file) => {
     throw new Error("Failed to edit question: " + error.message);
   }
 };
-
 // Delete question
 const deleteQuestion = async (questionId) => {
   try {
