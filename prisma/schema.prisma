@@ -65,7 +65,7 @@ model Questions {
   body      String
   slug      String
   createdAt DateTime @default(now())
-  imageUrl  String // Field untuk menyimpan URL gambar dari Cloudinary
+  imageUrl  String? // Field untuk menyimpan URL gambar dari Cloudinary
   forumID   String?
   topicsID  String? // Field ini diisi nanti diquestions yang didalam forum
   UserId    String
