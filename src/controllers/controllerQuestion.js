@@ -100,22 +100,34 @@ const handleGetQuestions = async (req, res) => {
 
 const handleEditQuestion = async (req, res) => {
   try {
+    let file = null;
+    if (req.files && req.files.image) {
+      file = req.files.image;
+    }
     const questionId = req.params.id;
-    const file = req.files ? req.files.image : null;
     const data = req.body;
+    
+    // Check if the topic exists
+    const topic = await findTopicByName(data.topic);
+    let topicId = null;
+    if (topic) {
+      topicId = topic.uuid;
+    }
+    if (!topicId) {
+      return res.status(404).json({ message: "Topic not found" });
+    }
+    
     const slugData = slug(data.title);
 
-    const question = await editQuestion(
-      questionId,
-      { ...data, slug: slugData },
-      file
-    );
+    const question = await editQuestion(questionId, data, file, slugData, topicId);
 
-    res.status(200).json(question);
+    res.status(200).json({ message: "Question edited successfully", question });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 const handleDeleteQuestion = async (req, res) => {
   try {

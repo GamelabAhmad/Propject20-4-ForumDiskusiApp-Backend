@@ -56,6 +56,40 @@ const findQuestionByTitle = async (title) => {
   return question;
 };
 
+const editQuestion = async (questionId, data, file, slugData, topicId) => {
+  try {
+    let imageUrl = "";
+
+    // Upload image to Cloudinary if file exists
+    if (file) {
+      const response = await cloudinary.uploader.upload(file.tempFilePath, {
+        folder: "questions",
+        allowed_formats: ["jpg", "jpeg", "png"],
+      });
+      imageUrl = response.secure_url;
+    }
+
+    const updatedData = {
+      title: data.title,
+      body: data.body,
+      slug: slugData,
+      imageUrl: imageUrl,
+      topic: { connect: { uuid: topicId } },
+    };
+
+    const question = await prisma.questions.update({
+      where: {
+        uuid: questionId,
+      },
+      data: updatedData,
+    });
+
+    return question;
+  } catch (error) {
+    throw new Error("Failed to edit question: " + error.message);
+  }
+};
+
 // Find question by id
 const findQuestionById = async (questionId) => {
   const question = await prisma.questions.findUnique({
@@ -80,38 +114,6 @@ const getQuestion = async () => {
   return question;
 };
 // Edit question
-const editQuestion = async (questionId, data, file) => {
-  try {
-    let imageUrl = null;
-
-    // Upload image to Cloudinary if file exists
-    if (file) {
-      const response = await cloudinary.uploader.upload(file.tempFilePath, {
-        folder: "questions",
-        allowed_formats: ["jpg", "jpeg", "png"],
-      });
-      imageUrl = response.secure_url;
-    }
-
-    const question = await prisma.questions.update({
-      where: {
-        uuid: questionId,
-      },
-      data: {
-        title: data.title,
-        body: data.body,
-        slug: data.slug,
-        imageUrl: imageUrl || undefined,
-        forumID: data.forumID || null,
-        topicsID: data.topicsID || null,
-      },
-    });
-
-    return question;
-  } catch (error) {
-    throw new Error("Failed to edit question: " + error.message);
-  }
-};
 
 // Delete question
 const deleteQuestion = async (questionId) => {

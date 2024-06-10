@@ -5,7 +5,7 @@ CREATE TABLE `Questions` (
     `body` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `imageUrl` VARCHAR(191) NOT NULL,
+    `imageUrl` VARCHAR(191) NULL,
     `forumID` VARCHAR(191) NULL,
     `topicsID` VARCHAR(191) NULL,
 
