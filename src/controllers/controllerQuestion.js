@@ -6,6 +6,9 @@ const {
   editQuestion,
   deleteQuestion,
   searchQuestionsByTitle,
+  getQuestionsByUserId,
+  getQuestionsByForumId,
+  getQuestionsByTopicId
 } = require("../services/serviceQuestion");
 const slug = require("slug");
 const yup = require("yup");
@@ -91,6 +94,47 @@ const handleSearchQuestions = async (req, res) => {
   }
 };
 
+const handleGetQuestionsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;// Extract userId from the token
+    const questions = await getQuestionsByUserId(userId);
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const handleGetQuestionsByUser = async (req, res) => {
+  try {
+    const userId = req.user.userToken;// Extract userId from the token
+    const questions = await getQuestionsByUserId(userId);
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const handleGetQuestionsByForumId = async (req, res) => {
+  try {
+    const forumId = req.params.forumId;// Extract userId from the token
+    const questions = await getQuestionsByForumId(forumId);
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const handleGetQuestionsByTopicId = async (req, res) => {
+  try {
+    const topicId = req.params.topicId;
+    const questions = await getQuestionsByTopicId(topicId);
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 const createValidationQuestion = yup.object().shape({
   title: yup.string().required(),
   body: yup.string().required(),
@@ -102,5 +146,9 @@ module.exports = {
   handleDeleteQuestion,
   handleSearchQuestions,
   handleGetQuestions,
+  handleGetQuestionsByUserId,
+  handleGetQuestionsByUser,
+  handleGetQuestionsByForumId,
+  handleGetQuestionsByTopicId,
   createValidationQuestion,
 };

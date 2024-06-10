@@ -61,7 +61,7 @@ const getQuestion = async() => {
   const question = await prisma.questions.findMany({
     include: {
       createdBy: true,
-      QuestionLikes: true
+      QuestionVotes: true
     }
   });
   return question;
@@ -127,6 +127,65 @@ const searchQuestionsByTitle = async (title) => {
   return questions;
 };
 
+// Get question by user
+const getQuestionsByUserId = async (userId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        createdBy: {
+          uuid: userId,
+        },
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    throw new Error("Failed to get questions for the user: " + error.message);
+  }
+};
+
+// Get question by forum
+const getQuestionsByForumId = async (forumId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        forum: {
+          uuid: forumId
+        }
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    throw new Error("Failed to get questions for the user: " + error.message);
+  }
+};
+
+// Get question by topic
+const getQuestionsByTopicId = async (topicId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        topic: {
+          uuid: topicId
+        }
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    console.error("Error fetching questions: ", error); // Debug log
+    throw new Error("Failed to get questions for the topic: " + error.message);
+  }
+};
+
+
 module.exports = {
   createQuestion,
   findQuestionByTitle,
@@ -135,4 +194,7 @@ module.exports = {
   editQuestion,
   deleteQuestion,
   searchQuestionsByTitle,
+  getQuestionsByUserId,
+  getQuestionsByForumId,
+  getQuestionsByTopicId
 };
