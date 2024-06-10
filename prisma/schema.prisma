@@ -34,8 +34,9 @@ model User {
   Comments      Comments[]
   QuestionVotes QuestionVotes[]
   CommentVotes  CommentVotes[]
-  user  Follows[]  @relation("User")
-  following  Follows[]  @relation("Following")
+  user          Follows[]       @relation("User")
+  following     Follows[]       @relation("Following")
+  Membership    Membership[]
 }
 
 model Topics {
@@ -49,14 +50,15 @@ model Topics {
 }
 
 model Forums {
-  uuid        String      @id @default(cuid())
-  name        String      @unique
+  uuid        String       @id @default(cuid())
+  name        String       @unique
   slug        String
-  description String      @db.Text
-  createdAt   DateTime    @default(now())
+  description String       @db.Text
+  createdAt   DateTime     @default(now())
   UserId      String
-  createdBy   User        @relation(fields: [UserId], references: [uuid])
+  createdBy   User         @relation(fields: [UserId], references: [uuid])
   Questions   Questions[]
+  Membership  Membership[]
 }
 
 model Questions {
@@ -111,15 +113,24 @@ model CommentVotes {
   role      VoteRole
   createdAt DateTime @default(now())
 
-  comment   Comments @relation(fields: [commentId], references: [uuid])
-  user      User     @relation(fields: [userId], references: [uuid])
+  comment Comments @relation(fields: [commentId], references: [uuid])
+  user    User     @relation(fields: [userId], references: [uuid])
 }
 
 model Follows {
-  uuid String @id @default(cuid())
-  userId String
+  uuid        String @id @default(cuid())
+  userId      String
   followingId String
 
-  user User @relation("User", fields: [userId], references: [uuid])
-  following  User @relation("Following", fields: [followingId], references: [uuid])
+  user      User @relation("User", fields: [userId], references: [uuid])
+  following User @relation("Following", fields: [followingId], references: [uuid])
+}
+
+model Membership {
+  uuid      String   @id @default(cuid())
+  forumId   String
+  userId    String
+  createdAt DateTime @default(now())
+  Forum     Forums   @relation(fields: [forumId], references: [uuid])
+  User      User     @relation(fields: [userId], references: [uuid])
 }
