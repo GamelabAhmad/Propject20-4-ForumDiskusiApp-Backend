@@ -11,6 +11,7 @@ const {
   handleGetQuestionsByForumId,
   handleGetQuestionsByTopicId,
   createValidationQuestion,
+  createQuestionInForum,
 } = require("../controllers/controllerQuestion");
 const router = express.Router();
 const { auth } = require("../middlewares/auth");
@@ -29,7 +30,10 @@ router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions);
 router.get("/questionByUser", auth, handleGetQuestionsByUser);
 router.get("/questionByUser/:userId", auth, handleGetQuestionsByUserId);
-router.get("/questionsByForum/:forumId", auth, handleGetQuestionsByForumId);
 router.get("/questionsByTopic/:topicId", handleGetQuestionsByTopicId);
+
+//question in forum
+router.post("/questionsByForum/:forumId", auth, createQuestionInForum);
+router.get("/questionsByForum/:forumId", auth, handleGetQuestionsByForumId);
 
 module.exports = router;

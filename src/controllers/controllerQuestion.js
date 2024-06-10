@@ -8,25 +8,68 @@ const {
   searchQuestionsByTitle,
   getQuestionsByUserId,
   getQuestionsByForumId,
-  getQuestionsByTopicId
+  getQuestionsByTopicId,
 } = require("../services/serviceQuestion");
 const slug = require("slug");
 const yup = require("yup");
+const { findTopicByName, findTopicById } = require("../services/serviceTopic");
 
 const createQuestionController = async (req, res) => {
   try {
-    if (!req.files || !req.files.image) {
-      return res.status(400).json({ error: "No file uploaded" });
+    let file = null;
+    if (req.files && req.files.image) {
+      file = req.files.image;
     }
-
     const userId = req.user.userToken;
-    const file = req.files.image;
     const data = req.body;
-
+    const topic = await findTopicByName(data.topic);
+    let topicId = null;
+    if (topic) {
+      topicId = topic.uuid;
+    }
+    if (!topicId) return res.status(404).json({ message: "Topic not found" });
     const slugData = slug(data.title);
-    const question = await createQuestion(userId, data, file, slugData);
+    const question = await createQuestion(
+      userId,
+      data,
+      file,
+      slugData,
+      null,
+      topicId
+    );
 
-    res.status(200).json(question);
+    res.status(200).json({ message: "Question created successful", question });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const createQuestionInForum = async (req, res) => {
+  try {
+    let file = null;
+    if (req.files && req.files.image) {
+      file = req.files.image;
+    }
+    const userId = req.user.userToken;
+    const forumId = req.params.forumId;
+    const data = req.body;
+    const topic = await findTopicByName(data.topic);
+    let topicId = null;
+    if (topic) {
+      topicId = topic.uuid;
+    }
+    if (!topicId) return res.status(404).json({ message: "Topic not found" });
+    const slugData = slug(data.title);
+    const question = await createQuestion(
+      userId,
+      data,
+      file,
+      slugData,
+      forumId,
+      topicId
+    );
+
+    res.status(200).json({ message: "Question created successful", question });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -96,7 +139,7 @@ const handleSearchQuestions = async (req, res) => {
 
 const handleGetQuestionsByUserId = async (req, res) => {
   try {
-    const userId = req.params.userId;// Extract userId from the token
+    const userId = req.params.userId; // Extract userId from the token
     const questions = await getQuestionsByUserId(userId);
     res.status(200).json(questions);
   } catch (error) {
@@ -106,7 +149,7 @@ const handleGetQuestionsByUserId = async (req, res) => {
 
 const handleGetQuestionsByUser = async (req, res) => {
   try {
-    const userId = req.user.userToken;// Extract userId from the token
+    const userId = req.user.userToken; // Extract userId from the token
     const questions = await getQuestionsByUserId(userId);
     res.status(200).json(questions);
   } catch (error) {
@@ -116,7 +159,7 @@ const handleGetQuestionsByUser = async (req, res) => {
 
 const handleGetQuestionsByForumId = async (req, res) => {
   try {
-    const forumId = req.params.forumId;// Extract userId from the token
+    const forumId = req.params.forumId; // Extract userId from the token
     const questions = await getQuestionsByForumId(forumId);
     res.status(200).json(questions);
   } catch (error) {
@@ -134,10 +177,10 @@ const handleGetQuestionsByTopicId = async (req, res) => {
   }
 };
 
-
 const createValidationQuestion = yup.object().shape({
   title: yup.string().required(),
   body: yup.string().required(),
+  topic: yup.string().required(),
 });
 module.exports = {
   createQuestionController,
@@ -151,4 +194,5 @@ module.exports = {
   handleGetQuestionsByForumId,
   handleGetQuestionsByTopicId,
   createValidationQuestion,
+  createQuestionInForum,
 };

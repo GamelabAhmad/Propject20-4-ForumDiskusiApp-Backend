@@ -20,7 +20,7 @@ router.post(
 );
 router.get("/topics", handleGetTopics);
 router.get("/topic/:id", handleGetTopic);
-router.put("/topic/:id", auth, moderator,handleEditTopic);
+router.put("/topic/:id", auth, moderator, handleEditTopic);
 router.delete("/topic/:id", auth, moderator, handleDeleteTopic);
 
 module.exports = router;
