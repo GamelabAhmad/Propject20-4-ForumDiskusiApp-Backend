@@ -8,6 +8,8 @@ const {
   handleGetQuestions,
   handleGetQuestionsByUser,
   handleGetQuestionsByUserId,
+  handleGetQuestionsByForumId,
+  handleGetQuestionsByTopicId,
   createValidationQuestion,
 } = require("../controllers/controllerQuestion");
 const router = express.Router();
@@ -27,5 +29,7 @@ router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions);
 router.get("/questionByUser", auth, handleGetQuestionsByUser);
 router.get("/questionByUser/:userId", auth, handleGetQuestionsByUserId);
+router.get("/questionsByForum/:forumId", auth, handleGetQuestionsByForumId);
+router.get("/questionsByTopic/:topicId", handleGetQuestionsByTopicId);
 
 module.exports = router;

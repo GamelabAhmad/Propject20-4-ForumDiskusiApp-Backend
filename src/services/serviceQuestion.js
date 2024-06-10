@@ -146,6 +146,46 @@ const getQuestionsByUserId = async (userId) => {
   }
 };
 
+// Get question by forum
+const getQuestionsByForumId = async (forumId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        forum: {
+          uuid: forumId
+        }
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    throw new Error("Failed to get questions for the user: " + error.message);
+  }
+};
+
+// Get question by topic
+const getQuestionsByTopicId = async (topicId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        topic: {
+          uuid: topicId
+        }
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    console.error("Error fetching questions: ", error); // Debug log
+    throw new Error("Failed to get questions for the topic: " + error.message);
+  }
+};
+
+
 module.exports = {
   createQuestion,
   findQuestionByTitle,
@@ -154,5 +194,7 @@ module.exports = {
   editQuestion,
   deleteQuestion,
   searchQuestionsByTitle,
-  getQuestionsByUserId
+  getQuestionsByUserId,
+  getQuestionsByForumId,
+  getQuestionsByTopicId
 };
