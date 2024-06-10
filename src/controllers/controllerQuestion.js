@@ -15,12 +15,8 @@ const yup = require("yup");
 
 const createQuestionController = async (req, res) => {
   try {
-    if (!req.files || !req.files.image) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-
     const userId = req.user.userToken;
-    const file = req.files.image;
+    const file = req.files ? req.files.image : null; // Handle if no file is uploaded
     const data = req.body;
 
     const slugData = slug(data.title);

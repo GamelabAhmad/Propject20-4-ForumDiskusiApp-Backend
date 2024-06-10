@@ -23,7 +23,7 @@ const createQuestion = async (userId, data, file, slugData) => {
         imageUrl: imageUrl,
         forum: data.forumID ? { connect: { uuid: data.forumID } } : undefined,
         topic: data.topicsID ? { connect: { uuid: data.topicsID } } : undefined,
-        createdBy: { connect: { uuid: userId }}
+        createdBy: { connect: { uuid: userId } }
       },
     });
 
@@ -32,6 +32,7 @@ const createQuestion = async (userId, data, file, slugData) => {
     throw new Error("Failed to create question: " + error.message);
   }
 };
+
 
 // Find Questions berdasarkan title
 const findQuestionByTitle = async (title) => {
