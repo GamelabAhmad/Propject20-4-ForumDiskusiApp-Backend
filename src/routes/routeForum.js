@@ -14,12 +14,13 @@ const {
 router.post(
   "/forum",
   auth,
+  moderator,
   validateRequest(createValidationForum),
   handleCreateForum
 );
 router.get("/forums", handleGetForums);
 router.get("/forum/:id", handleGetForum);
-router.put("/forum/:id", auth, handleEditForum);
+router.put("/forum/:id", auth, moderator, handleEditForum);
 router.delete("/forum/:id", auth, moderator, handleDeleteForum);
 
 module.exports = router;

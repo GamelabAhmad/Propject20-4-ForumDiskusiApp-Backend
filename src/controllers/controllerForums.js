@@ -40,11 +40,6 @@ const handleEditForum = async (req, res) => {
         const forumData = req.body;
         const slugData = slug(forumData.name);
 
-        const existingForum = await findForumByName(forumData.name);
-        if (existingForum) {
-            return res.status(400).json({ error: "Forum already exist" })
-        }
-
         const newForum = await editForum(forumId, forumData, slugData);
 
         res.status(201).json({ message: "Forum updated successfully", forum: newForum});
