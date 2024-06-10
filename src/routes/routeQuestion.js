@@ -6,6 +6,8 @@ const {
   handleDeleteQuestion,
   handleSearchQuestions,
   handleGetQuestions,
+  handleGetQuestionsByUser,
+  handleGetQuestionsByUserId,
   createValidationQuestion,
 } = require("../controllers/controllerQuestion");
 const router = express.Router();
@@ -23,5 +25,7 @@ router.put("/question/:id", auth, handleEditQuestion);
 router.delete("/question/:id", auth, handleDeleteQuestion);
 router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions);
+router.get("/questionByUser", auth, handleGetQuestionsByUser);
+router.get("/questionByUser/:userId", auth, handleGetQuestionsByUserId);
 
 module.exports = router;

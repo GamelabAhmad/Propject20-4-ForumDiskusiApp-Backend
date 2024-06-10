@@ -61,7 +61,7 @@ const getQuestion = async() => {
   const question = await prisma.questions.findMany({
     include: {
       createdBy: true,
-      QuestionLikes: true
+      QuestionVotes: true
     }
   });
   return question;
@@ -127,6 +127,25 @@ const searchQuestionsByTitle = async (title) => {
   return questions;
 };
 
+// Get question by user
+const getQuestionsByUserId = async (userId) => {
+  try {
+    const questions = await prisma.questions.findMany({
+      where: {
+        createdBy: {
+          uuid: userId,
+        },
+      },
+      include: {
+        createdBy: true,
+      },
+    });
+    return questions;
+  } catch (error) {
+    throw new Error("Failed to get questions for the user: " + error.message);
+  }
+};
+
 module.exports = {
   createQuestion,
   findQuestionByTitle,
@@ -135,4 +154,5 @@ module.exports = {
   editQuestion,
   deleteQuestion,
   searchQuestionsByTitle,
+  getQuestionsByUserId
 };
