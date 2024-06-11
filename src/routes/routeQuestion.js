@@ -29,7 +29,7 @@ router.delete("/question/:id", auth, handleDeleteQuestion);
 router.get("/question", handleSearchQuestions);
 router.get("/questions", handleGetQuestions);
 router.get("/questionByUser", auth, handleGetQuestionsByUser);
-router.get("/questionByUser/:userId", auth, handleGetQuestionsByUserId);
+router.get("/questionByUser/:userId", handleGetQuestionsByUserId);
 router.get("/questionsByTopic/:topicId", handleGetQuestionsByTopicId);
 
 //question in forum
