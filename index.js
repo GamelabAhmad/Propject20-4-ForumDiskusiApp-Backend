@@ -51,6 +51,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+//docs
+const { swaggerUi, swaggerDocs } = require("./swagger");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 //auth route
 app.use(authRoute);
 
