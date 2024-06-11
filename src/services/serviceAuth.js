@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const prisma = require("../db");
 
-const createUser = async (userData) => {
+const createUser = async (userData, role = "USER") => {
   const hashedPassword = await bcrypt.hash(userData.password, 10);
   const user = await prisma.user.create({
     data: {
@@ -10,13 +10,14 @@ const createUser = async (userData) => {
       email: userData.email,
       name: null,
       bio: null,
-      avatar:
-        "https://res.cloudinary.com/dhvh8htdc/image/upload/v1717667656/ak5lhsep5vrwikyyklo9.png",
+      avatar: "https://res.cloudinary.com/dhvh8htdc/image/upload/v1717667656/ak5lhsep5vrwikyyklo9.png",
+      role: role,
     },
   });
 
   return user;
 };
+
 
 const findUserById = async (userId) => {
   const user = await prisma.user.findUnique({

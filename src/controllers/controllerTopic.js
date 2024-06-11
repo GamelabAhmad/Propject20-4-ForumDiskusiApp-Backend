@@ -39,11 +39,6 @@ const handleEditTopic = async (req, res) => {
     const topicData = req.body;
     const slugData = slug(topicData.name);
 
-    const existingTopic = await findTopicByName(topicData.name);
-    if (existingTopic) {
-      return res.status(400).json({ error: "Topic already exist" });
-    }
-
     const newTopic = await editTopic(topicId, topicData, slugData);
 
     res

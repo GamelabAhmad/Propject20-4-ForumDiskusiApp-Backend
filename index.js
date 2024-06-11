@@ -8,13 +8,14 @@ const fileUpload = require("express-fileupload");
 const authRoute = require("./src/routes/routeAuth");
 const topicRoute = require("./src/routes/routeTopic");
 const forumRoute = require("./src/routes/routeForum");
-const cloudRoute = require("./src/routes/routeCloud");
+// const cloudRoute = require("./src/routes/routeCloud");
 const userRoute = require("./src/routes/routeUser");
 const questionRoute = require("./src/routes/routeQuestion");
 const questionLikeRoute = require("./src/routes/routeQuestionLike");
 const commentRoute = require("./src/routes/routeComment");
 const commentVoteRoute = require("./src/routes/routeCommentVote");
 const followRoute = require("./src/routes/routeFollow");
+const memberRoute = require("./src/routes/routeMemberShip");
 
 const prisma = PrismaClient;
 const app = express();
@@ -50,6 +51,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+//docs
+const { swaggerUi, swaggerDocs } = require("./swagger");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 //auth route
 app.use(authRoute);
 
@@ -59,7 +64,7 @@ app.use(topicRoute);
 // Forum Routes
 app.use(forumRoute);
 
-app.use(cloudRoute);
+// app.use(cloudRoute);
 
 // Question Route
 app.use(questionRoute);
@@ -78,6 +83,9 @@ app.use(commentVoteRoute);
 
 //follow route
 app.use(followRoute);
+
+// Member Route
+app.use(memberRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

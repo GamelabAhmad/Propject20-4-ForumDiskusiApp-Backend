@@ -56,6 +56,27 @@ const handleSignIn = async (req, res) => {
   return;
 };
 
+const handleCreateAdmin = async (req, res) => {
+  try {
+    const newAdminData = req.body;
+
+    const existingUserByUsername = await findUserByUsername(newAdminData.username);
+    if (existingUserByUsername)
+      return res.status(400).json({ error: "Username already exists" });
+
+    const existingUserByEmail = await findUserByEmail(newAdminData.email);
+    if (existingUserByEmail)
+      return res.status(400).json({ error: "Email already exists" });
+
+    const newAdmin = await createUser(newAdminData, "MODERATOR");
+
+    res.status(201).json({ message: "Admin created successfully", user: newAdmin });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+  return;
+};
+
 const signUpSchema = yup.object().shape({
   username: yup
     .string()
@@ -80,5 +101,6 @@ const signUpSchema = yup.object().shape({
 module.exports = {
   handleSignIn,
   handleSignUp,
+  handleCreateAdmin,
   signUpSchema,
 };
