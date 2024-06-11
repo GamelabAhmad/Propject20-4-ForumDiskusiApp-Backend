@@ -1,13 +1,24 @@
 const prisma = require("../db");
 
 const followUser = async (userId, followId) => {
-  const follow = await prisma.follows.create({
-    data: {
+  const alreadyFollow = await prisma.follows.findFirst({
+    where: {
       userId,
       followingId: followId,
     },
   });
-  return follow;
+
+  if (alreadyFollow) {
+    return { status: 400, message: "You already follow the user" };
+  } else {
+    const follow = await prisma.follows.create({
+      data: {
+        userId,
+        followingId: followId,
+      },
+    });
+    return follow;
+  }
 };
 
 const unfollowUser = async (userId, followId) => {
@@ -29,11 +40,21 @@ const getFollowers = async (followingId) => {
       user: {
         select: {
           username: true,
+          avatar: true,
         },
       },
     },
   });
-  return followers.map((follows) => follows.user.username);
+  const user = followers.map((follows) => ({
+    username: follows.user.username,
+    avatar: follows.user.avatar,
+  }));
+
+  if (user.length === 0) {
+    return "No followers";
+  }
+
+  return user;
 };
 
 const getFollowing = async (userId) => {
@@ -45,11 +66,19 @@ const getFollowing = async (userId) => {
       following: {
         select: {
           username: true,
+          avatar: true,
         },
       },
     },
   });
-  return following.map((follows) => follows.following.username);
+  const user = following.map((follows) => ({
+    username: follows.following.username,
+    avatar: follows.following.avatar,
+  }));
+  if (user.length === 0) {
+    return "No following";
+  }
+  return user;
 };
 
 module.exports = {
