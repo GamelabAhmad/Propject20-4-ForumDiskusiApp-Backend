@@ -11,8 +11,13 @@ const router = express.Router();
 router.post("/follow/:id", auth, handleFollowUser);
 router.delete("/unfollow/:id", auth, handleUnfollowUser);
 
+<<<<<<< alixa/feat/follows
+router.get("/followers/:id", handleGetFollowers);
+router.get("/following/:id", handleGetFollowing);
+=======
 router.get("/followers", handleGetFollowers);
 router.get("/following", handleGetFollowing);
+>>>>>>> master
 
 /**
  * @swagger
@@ -97,4 +102,8 @@ router.get("/following", handleGetFollowing);
  *       401:
  *         description: Unauthorized
  */
+<<<<<<< alixa/feat/follows
+
+=======
+>>>>>>> master
 module.exports = router;

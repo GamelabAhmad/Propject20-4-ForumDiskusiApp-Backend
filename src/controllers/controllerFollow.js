@@ -30,7 +30,7 @@ const handleUnfollowUser = async (req, res) => {
 
 const handleGetFollowing = async (req, res) => {
   try {
-    const userId = req.user.userToken;
+    const userId = req.params.id;
     const followers = await getFollowing(userId);
     if (!followers) return res.status(404).json("No Following");
     res.status(200).json(followers);
@@ -40,7 +40,7 @@ const handleGetFollowing = async (req, res) => {
 };
 const handleGetFollowers = async (req, res) => {
   try {
-    const userId = req.user.userToken;
+    const userId = req.params.id;
     const followers = await getFollowers(userId);
     if (!followers) return res.status(404).json("No Follower");
     res.status(200).json(followers);
