@@ -153,6 +153,8 @@ const getQuestionsByUserId = async (userId) => {
       },
       include: {
         createdBy: true,
+        topic: true,
+        forum: true,
       },
     });
     return questions;
@@ -172,6 +174,7 @@ const getQuestionsByForumId = async (forumId) => {
       },
       include: {
         createdBy: true,
+        topic: true,
       },
     });
     return questions;
@@ -191,6 +194,7 @@ const getQuestionsByTopicId = async (topicId) => {
       },
       include: {
         createdBy: true,
+        topic: true,
       },
     });
     return questions;
