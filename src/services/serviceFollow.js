@@ -54,7 +54,7 @@ const getFollowers = async (followingId) => {
     return "No followers";
   }
 
-  return user;
+  return { count: user.length, followers: user };
 };
 
 const getFollowing = async (userId) => {
@@ -78,7 +78,8 @@ const getFollowing = async (userId) => {
   if (user.length === 0) {
     return "No following";
   }
-  return user;
+
+  return { count: user.length, following: user };
 };
 
 module.exports = {
