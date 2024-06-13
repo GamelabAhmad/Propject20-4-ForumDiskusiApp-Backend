@@ -4,11 +4,18 @@ const { auth } = require("../middlewares/auth");
 const {
   handleGetUser,
   handleEditUser,
+  handleGetLoggedInUserProfile,
+  handleEditLoggedInUserProfile
 } = require("../controllers/controllerUser");
 
 router.get("/profile/:id", handleGetUser);
 
 router.put("/setting/:id", auth, handleEditUser);
+
+// profile user yang login
+router.get("/profile", auth, handleGetLoggedInUserProfile);
+// edit profile user yang login
+router.put("/setting", auth, handleEditLoggedInUserProfile);
 
 /**
  * @swagger
