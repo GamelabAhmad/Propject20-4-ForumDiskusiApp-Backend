@@ -37,6 +37,9 @@ const createQuestion = async (
 
     // Create question record in the database
     const question = await prisma.questions.create({
+      include:{
+        topic:true,
+      },
       data: questionData,
     });
 
@@ -52,6 +55,11 @@ const findQuestionByTitle = async (title) => {
     where: {
       title: title,
     },
+    include: {
+      createdBy: true,
+      topic:true,
+    },
+
   });
   return question;
 };
@@ -80,6 +88,8 @@ const editQuestion = async (questionId, data, file, slugData, topicId) => {
     const question = await prisma.questions.update({
       where: {
         uuid: questionId,
+      }, include:{
+        topic:true,
       },
       data: updatedData,
     });
@@ -98,6 +108,7 @@ const findQuestionById = async (questionId) => {
     },
     include: {
       createdBy: true,
+      topic:true,
     },
   });
   return question;
@@ -108,6 +119,7 @@ const getQuestion = async () => {
   const question = await prisma.questions.findMany({
     include: {
       createdBy: true,
+      topic:true,
       QuestionVotes: true,
     },
   });
