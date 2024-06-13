@@ -52,7 +52,12 @@ const getVotesForQuestion = async (questionId) => {
             questionId: questionId,
         },
         include: {
-          user: true,
+          user: {
+            select: {
+                username: true,
+              },
+          },
+          question:true
         },
       });
       return votes;

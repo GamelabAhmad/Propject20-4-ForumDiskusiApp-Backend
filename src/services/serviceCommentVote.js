@@ -56,7 +56,12 @@ const getVotesForComment = async (commentId) => {
             commentId: commentId,
         },
         include: {
-          user: true,
+          user: {
+            select: {
+                username: true
+            }
+          },
+          comment: true
         },
       });
       return votes;
