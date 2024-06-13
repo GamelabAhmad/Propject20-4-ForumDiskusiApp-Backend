@@ -58,6 +58,7 @@ const findQuestionByTitle = async (title) => {
     include: {
       createdBy: true,
       topic:true,
+      QuestionVotes: true,
     },
 
   });
@@ -109,6 +110,7 @@ const findQuestionById = async (questionId) => {
     include: {
       createdBy: true,
       topic:true,
+      QuestionVotes: true,
     },
   });
   return question;
@@ -167,6 +169,7 @@ const getQuestionsByUserId = async (userId) => {
         createdBy: true,
         topic: true,
         forum: true,
+        QuestionVotes: true,
       },
     });
     return questions;
@@ -187,6 +190,8 @@ const getQuestionsByForumId = async (forumId) => {
       include: {
         createdBy: true,
         topic: true,
+        QuestionVotes: true,
+        forum:true
       },
     });
     return questions;
@@ -207,6 +212,7 @@ const getQuestionsByTopicId = async (topicId) => {
       include: {
         createdBy: true,
         topic: true,
+        QuestionVotes: true,
       },
     });
     return questions;
