@@ -80,4 +80,57 @@ router.put("/setting", auth, handleEditLoggedInUserProfile);
  *       404:
  *         description: User not found
  */
+
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     security:
+ *       - BearerAuth: []
+ *     summary: Get logged in user profile
+ *     tags:
+ *       - User Profile
+ *     responses:
+ *       200:
+ *         description: User found
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+
+/**
+ * @swagger
+ * /setting:
+ *   put:
+ *     security:
+ *       - BearerAuth: []
+ *     summary: Update logged user
+ *     tags:
+ *       - User Profile
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "New Name"
+ *               bio:
+ *                 type: string
+ *                 example: "New Bio"
+ *               image:
+ *                 type: string
+ *                 example: "http://example.com/new_image.jpg"
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+
 module.exports = router;
