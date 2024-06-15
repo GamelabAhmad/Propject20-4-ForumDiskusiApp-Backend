@@ -106,7 +106,7 @@ const handleEditQuestion = async (req, res) => {
     }
     const questionId = req.params.id;
     const data = req.body;
-    
+
     // Check if the topic exists
     const topic = await findTopicByName(data.topic);
     let topicId = null;
@@ -116,7 +116,7 @@ const handleEditQuestion = async (req, res) => {
     if (!topicId) {
       return res.status(404).json({ message: "Topic not found" });
     }
-    
+
     const slugData = slug(data.title);
 
     const question = await editQuestion(questionId, data, file, slugData, topicId);
