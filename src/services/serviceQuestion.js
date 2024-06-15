@@ -132,6 +132,13 @@ const getQuestion = async () => {
 // Delete question
 const deleteQuestion = async (questionId) => {
   try {
+    await prisma.commentVotes.deleteMany({
+      where: {
+        comment: {
+          questionId: questionId,
+        },
+      },
+    });
     await prisma.comments.deleteMany({
       where: {
         questionId: questionId

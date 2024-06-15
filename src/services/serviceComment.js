@@ -56,6 +56,12 @@ const deleteComment = async (commentId, userId) => {
     throw new Error("Access Denied");
   }
 
+  await prisma.commentVotes.deleteMany({
+    where: {
+      commentId: commentId,
+    },
+  });
+
   const comment = await prisma.comments.delete({
     where: {
       uuid: commentId,
