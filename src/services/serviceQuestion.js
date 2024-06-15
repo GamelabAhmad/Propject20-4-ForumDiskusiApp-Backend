@@ -132,12 +132,12 @@ const getQuestion = async () => {
 // Delete question
 const deleteQuestion = async (questionId) => {
   try {
-    await prisma.questions.delete({
+    const question = await prisma.questions.delete({
       where: {
         uuid: questionId,
       },
     });
-    return { message: "Question deleted successfully" };
+    return { message: "Question deleted successfully", question };
   } catch (error) {
     throw new Error("Failed to delete question: " + error.message);
   }
