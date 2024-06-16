@@ -21,7 +21,7 @@ const handleCreateMembership = async (req, res) => {
   
       // Jika belum menjadi member, buat keanggotaan baru
       const membership = await createMembership(forumId, userId);
-      res.status(201).json(membership);
+      res.status(201).json({message: "Join Successfull",membership});
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
