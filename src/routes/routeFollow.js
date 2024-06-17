@@ -4,6 +4,7 @@ const {
   handleUnfollowUser,
   handleGetFollowing,
   handleGetFollowers,
+  handleIsUserFollowed
 } = require("../controllers/controllerFollow");
 const { auth } = require("../middlewares/auth");
 const router = express.Router();
@@ -13,6 +14,8 @@ router.delete("/unfollow/:id", auth, handleUnfollowUser);
 
 router.get("/followers/:id", handleGetFollowers);
 router.get("/following/:id", handleGetFollowing);
+router.get("/isFollowed/:id", auth, handleIsUserFollowed);
+
 
 /**
  * @swagger

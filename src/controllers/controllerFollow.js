@@ -4,6 +4,7 @@ const {
   unfollowUser,
   getFollowers,
   getFollowing,
+  isUserFollowed
 } = require("../services/serviceFollow");
 
 const handleFollowUser = async (req, res) => {
@@ -49,9 +50,21 @@ const handleGetFollowers = async (req, res) => {
   }
 };
 
+const handleIsUserFollowed = async (req, res) => {
+  try {
+    const userId = req.user.userToken;
+    const followId = req.params.id;
+    const isFollowed = await isUserFollowed(userId, followId);
+    res.status(200).json({ isFollowed });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+};
+
 module.exports = {
   handleFollowUser,
   handleUnfollowUser,
   handleGetFollowing,
   handleGetFollowers,
+  handleIsUserFollowed
 };
