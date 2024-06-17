@@ -59,6 +59,7 @@ const findQuestionByTitle = async (title) => {
       createdBy: true,
       topic:true,
       QuestionVotes: true,
+      forum: true
     },
 
   });
@@ -122,6 +123,7 @@ const findQuestionById = async (questionId) => {
       createdBy: true,
       topic:true,
       QuestionVotes: true,
+      
     },
   });
   return question;
@@ -134,6 +136,7 @@ const getQuestion = async () => {
       createdBy: true,
       topic:true,
       QuestionVotes: true,
+      forum: true
     },
   });
   return question;
