@@ -17,9 +17,9 @@ router.post("/member/:forumId", auth, handleCreateMembership);
 router.get("/members", handleGetMemberships);
 router.get("/member/:id", handleGetMembershipById);
 router.delete("/member/:forumId", auth, handleDeleteMembership);
-router.get("/membership/:forumId", handleCheckUserMembership);
-router.get("/membersByForum/:forumId", handleGetMembershipsByForum);
-router.get("/membersByUser", handleGetMembershipsByUser);
+router.get("/membership/:forumId", auth, handleCheckUserMembership);
+router.get("/membersByForum/:forumId", auth, handleGetMembershipsByForum);
+router.get("/membersByUser", auth, handleGetMembershipsByUser);
 router.get("/membersByUser/:userId", handleGetMembersByUser);
 
 /**
