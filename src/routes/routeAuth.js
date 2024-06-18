@@ -6,6 +6,7 @@ const {
   handleSignUp,
   handleSignIn,
   handleCreateAdmin,
+  handleGetUsers
 } = require("../controllers/controllerAuth");
 
 router.post("/signup", validateRequest(signUpSchema), handleSignUp);
@@ -13,6 +14,8 @@ router.post("/signup", validateRequest(signUpSchema), handleSignUp);
 router.post("/signin", handleSignIn);
 
 router.post("/create-admin", validateRequest(signUpSchema), handleCreateAdmin);
+
+router.get("/users", handleGetUsers);
 
 /**
  * @swagger

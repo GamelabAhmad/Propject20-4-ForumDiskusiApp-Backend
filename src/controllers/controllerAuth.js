@@ -5,6 +5,7 @@ const {
   findUserByUsername,
   findUserByEmail,
   createUser,
+  getUsers
 } = require("../services/serviceAuth");
 
 const handleSignUp = async (req, res) => {
@@ -77,6 +78,16 @@ const handleCreateAdmin = async (req, res) => {
   return;
 };
 
+const handleGetUsers = async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+  return;
+};
+
 const signUpSchema = yup.object().shape({
   username: yup
     .string()
@@ -102,5 +113,6 @@ module.exports = {
   handleSignIn,
   handleSignUp,
   handleCreateAdmin,
+  handleGetUsers,
   signUpSchema,
 };
